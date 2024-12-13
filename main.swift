@@ -26,17 +26,31 @@ func loadServiceRequirements() -> [String: (cpu: Int, ram: Int)] {
     }
 }
 
-@main
-struct App {
-
-    static func main() {
-        if let fileContent = try? String(contentsOfFile: "./kube_status.txt", encoding: .utf8) {
-            let cluster = parseClusterStatus(fileContent: fileContent)
-            let menu = InteractiveMenu(cluster: cluster, serviceRequirements: loadServiceRequirements())
-            menu.showMainMenu()
+func loadClusterStatus() -> String {
+    while true {
+        print("\nEnter the path to your cluster status file (default: ./kube_status.txt):")
+        let input = readLine()?.trimmingCharacters(in: .whitespaces) ?? ""
+        let path = input.isEmpty ? "./kube_status.txt" : input
+        
+        if let fileContent = try? String(contentsOfFile: path, encoding: .utf8) {
+            return fileContent
         } else {
-            print("Error: Could not read kube_status.txt file")
+            print("Error: Could not read file at path: \(path)")
+            print("Would you like to try again? (y/n):")
+            let retry = readLine()?.lowercased() ?? "n"
+            if retry != "y" {
+                fatalError("Could not load cluster status file")
+            }
         }
     }
+}
 
+@main
+struct App {
+    static func main() {
+        let fileContent = loadClusterStatus()
+        let cluster = parseClusterStatus(fileContent: fileContent)
+        let menu = InteractiveMenu(cluster: cluster, serviceRequirements: loadServiceRequirements())
+        menu.showMainMenu()
+    }
 }

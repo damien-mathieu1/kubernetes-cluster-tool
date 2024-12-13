@@ -28,6 +28,10 @@ The project follows a protocol-oriented architecture with clear separation of co
 - `Tools/string.swift`: String manipulation utilities
 - `Tools/InteractiveMenu.swift`: Interactive command-line interface
 
+### Configuration
+
+- `Config/service_requirements.json`: Defines CPU and RAM requirements for different service types
+
 ## Prerequisites
 
 - Swift 5.0 or later
@@ -53,6 +57,8 @@ The project follows a protocol-oriented architecture with clear separation of co
 │ ├── kubTool.swift
 │ ├── string.swift
 │ └── InteractiveMenu.swift
+├── Config/
+│ └── service_requirements.json
 ├── main.swift
 ├── kube_status.txt
 ├── compile_and_run.sh
@@ -88,31 +94,40 @@ chmod +x compile_and_run.sh
 ./compile_and_run.sh
 ```
 
-## Interactive Menu Features
+3. When prompted, enter the path to your cluster status file or press Enter to use the default path (`./kube_status.txt`).
 
-The tool provides an interactive command-line interface with the following menus:
+## Interactive Features
 
-### 1. Container Status Management
+### File Loading
 
-- View all container statuses
-- View cluster summary
-- Count containers by type
+- Interactive cluster status file selection
+- Default path support
+- Error handling with retry option
 
-### 2. Resource Management
+### Main Menu Options
 
-- View pod resources
-- Check available resources for a node
-- Calculate service resources
+1. Container Status Management
 
-### 3. Container Operations
+   - View all container statuses
+   - View cluster summary
+   - Count containers by type
 
-- Restart all crashed containers
-- Restart specific container
-- View service requirements
+2. Resource Management
 
-## Input File Format
+   - View pod resources
+   - Check available resources for a node
+   - Calculate service resources
 
-The `kube_status.txt` file should follow this format:
+3. Container Operations
+   - Restart all crashed containers
+   - Restart specific container
+   - View service requirements
+
+## Input Files
+
+### Cluster Status File Format (kube_status.txt)
+
+The file should follow this format:
 
 ```
 Node: <node_id>
@@ -121,39 +136,22 @@ Pod: <pod_id>
 Container: <container_name> | Status: <status> | CPU: <cpu_usage> | RAM: <ram_usage>
 ```
 
-## Service Requirements
+### Service Requirements Configuration (service_requirements.json)
 
-The tool comes pre-configured with resource requirements for various services:
+JSON file defining resource requirements for various services:
 
-- postgres_db: 2 CPU, 8 RAM
-- kafka_broker: 4 CPU, 16 RAM
-- redis_cache: 1 CPU, 2 RAM
-- nginx_webserver: 2 CPU, 8 RAM
-- And many more...
+```json
+{
+    "service_name": {
+        "cpu": <cpu_count>,
+        "ram": <ram_size>
+    }
+}
+```
 
 ## License
 
-MIT License
-
-Copyright (c) 2024 Damien MATHIEU
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+MIT License - See LICENSE file for details.
 
 ## Support
 
