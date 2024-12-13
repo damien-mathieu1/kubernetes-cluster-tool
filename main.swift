@@ -29,47 +29,12 @@ let serviceRequirements: [String: (cpu: Int, ram: Int)] = [
 struct App {
 
     static func main() {
-        // Example usage
-        if let fileContent = try? String(
-            contentsOfFile: "./kube_status.txt",
-            encoding: .utf8)
-        {
-            var cluster = parseClusterStatus(fileContent: fileContent)
-            print("Cluster Status avant le redémarrage :")
-            displayContainerStatus(cluster: cluster)
-            restartAllCrashedContainers(serviceRequirements: serviceRequirements, cluster: &cluster)
-
-            let containerName = "redis_cache"
-            let success = restartCrashedContainer(
-                containerName: containerName,
-                serviceRequirements: serviceRequirements,
-                cluster: &cluster
-            )
-
-            if success {
-                print("Container \(containerName) was restarted successfully.")
-            } else {
-                print("Failed to restart container \(containerName).")
-            }
-            displayPodResources(cluster: cluster)
-            clusterSummary(cluster: cluster)
-
-            // Afficher les ressources disponibles sur un nœud spécifique
-            let nodeIdToCheck = 1  // Remplacez par l'ID du nœud que vous voulez vérifier
-            displayAvailableResources(forNodeId: nodeIdToCheck, cluster: cluster)
-            print("Enter the name of the container type to count:")
-            if let userInput = readLine() {
-                let count = countContainers(ofType: userInput, in: cluster)
-                print("There are \(count) containers of type '\(userInput)' in the cluster.")
-            }
-
-            print("Enter the name of the service type to calculate resources for:")
-            if let userInput = readLine() {
-                let resources = calculateResourcesForService(typeName: userInput, in: cluster)
-                print(
-                    "The service '\(userInput)' is using \(resources.cpu) CPUs and \(resources.ram) RAM in total."
-                )
-            }
+        if let fileContent = try? String(contentsOfFile: "./kube_status.txt", encoding: .utf8) {
+            let cluster = parseClusterStatus(fileContent: fileContent)
+            let menu = InteractiveMenu(cluster: cluster, serviceRequirements: serviceRequirements)
+            menu.showMainMenu()
+        } else {
+            print("Error: Could not read kube_status.txt file")
         }
     }
 
