@@ -1,29 +1,30 @@
 import Foundation
 
-let serviceRequirements: [String: (cpu: Int, ram: Int)] = [
-    "postgres_db": (2, 8),
-    "kafka_broker": (4, 16),
-    "redis_cache": (1, 2),
-    "nginx_webserver": (2, 8),
-    "fluentd_logger": (2, 4),
-    "api_service": (1, 2),
-    "spark_worker": (4, 16),
-    "mongodb": (2, 10),
-    "frontend": (1, 2),
-    "mysql_db": (3, 10),
-    "auth_service": (2, 6),
-    "logger": (1, 1),
-    "backend_service": (2, 6),
-    "job_scheduler": (3, 6),
-    "alerting_service": (1, 1),
-    "elasticsearch": (1, 20),
-    "logstash": (3, 10),
-    "monitoring_agent": (2, 4),
-    "data_processor": (2, 8),
-    "grafana_monitoring": (2, 4),
-    "alert_manager": (1, 1),
-    "prometheus": (3, 6),
-]
+func loadServiceRequirements() -> [String: (cpu: Int, ram: Int)] {
+    // Use Bundle.main instead of Bundle.module, and provide a fallback path
+    let configPath = Bundle.main.path(forResource: "service_requirements", ofType: "json") ??
+        "./Config/service_requirements.json"
+    
+    do {
+        let data = try Data(contentsOf: URL(fileURLWithPath: configPath))
+        // Explicitly cast the JSON structure
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: [String: Any]] else {
+            fatalError("Invalid JSON format")
+        }
+        
+        var requirements: [String: (cpu: Int, ram: Int)] = [:]
+        for (service, resources) in json {
+            // Cast the values to Int
+            if let cpu = resources["cpu"] as? Int,
+               let ram = resources["ram"] as? Int {
+                requirements[service] = (cpu: cpu, ram: ram)
+            }
+        }
+        return requirements
+    } catch {
+        fatalError("Error loading service requirements: \(error)")
+    }
+}
 
 @main
 struct App {
@@ -31,7 +32,7 @@ struct App {
     static func main() {
         if let fileContent = try? String(contentsOfFile: "./kube_status.txt", encoding: .utf8) {
             let cluster = parseClusterStatus(fileContent: fileContent)
-            let menu = InteractiveMenu(cluster: cluster, serviceRequirements: serviceRequirements)
+            let menu = InteractiveMenu(cluster: cluster, serviceRequirements: loadServiceRequirements())
             menu.showMainMenu()
         } else {
             print("Error: Could not read kube_status.txt file")

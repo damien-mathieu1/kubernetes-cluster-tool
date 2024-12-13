@@ -1,0 +1,90 @@
+{
+    "postgres_db": {
+        "cpu": 2,
+        "ram": 8
+    },
+    "kafka_broker": {
+        "cpu": 4,
+        "ram": 16
+    },
+    "redis_cache": {
+        "cpu": 1,
+        "ram": 2
+    },
+    "nginx_webserver": {
+        "cpu": 2,
+        "ram": 8
+    },
+    "fluentd_logger": {
+        "cpu": 2,
+        "ram": 4
+    },
+    "api_service": {
+        "cpu": 1,
+        "ram": 2
+    },
+    "spark_worker": {
+        "cpu": 4,
+        "ram": 16
+    },
+    "mongodb": {
+        "cpu": 2,
+        "ram": 10
+    },
+    "frontend": {
+        "cpu": 1,
+        "ram": 2
+    },
+    "mysql_db": {
+        "cpu": 3,
+        "ram": 10
+    },
+    "auth_service": {
+        "cpu": 2,
+        "ram": 6
+    },
+    "logger": {
+        "cpu": 1,
+        "ram": 1
+    },
+    "backend_service": {
+        "cpu": 2,
+        "ram": 6
+    },
+    "job_scheduler": {
+        "cpu": 3,
+        "ram": 6
+    },
+    "alerting_service": {
+        "cpu": 1,
+        "ram": 1
+    },
+    "elasticsearch": {
+        "cpu": 1,
+        "ram": 20
+    },
+    "logstash": {
+        "cpu": 3,
+        "ram": 10
+    },
+    "monitoring_agent": {
+        "cpu": 2,
+        "ram": 4
+    },
+    "data_processor": {
+        "cpu": 2,
+        "ram": 8
+    },
+    "grafana_monitoring": {
+        "cpu": 2,
+        "ram": 4
+    },
+    "alert_manager": {
+        "cpu": 1,
+        "ram": 1
+    },
+    "prometheus": {
+        "cpu": 3,
+        "ram": 6
+    }
+} 
