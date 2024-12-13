@@ -1,0 +1,64 @@
+Node: 1
+Ressources: CPU: 8 | RAM: 32
+Pod: 1
+Container: nginx_webserver | Status: running | CPU: 2 | RAM: 8
+Container: redis_cache | Status: crashed | CPU: 0 | RAM: 0
+Pod: 2
+Container: postgres_db | Status: stopped | CPU: 0 | RAM: 0
+Container: fluentd_logger | Status: running | CPU: 2 | RAM: 4
+Pod: 3
+Container: api_service | Status: running | CPU: 1 | RAM: 2
+
+Node: 2
+Ressources: CPU: 8 | RAM: 32
+Pod: 1
+Container: kafka_broker | Status: crashed | CPU: 0 | RAM: 0
+Container: spark_worker | Status: running | CPU: 4 | RAM: 16
+Pod: 2
+Container: mongodb | Status: running | CPU: 2 | RAM: 10
+Pod: 3
+Container: frontend | Status: running | CPU: 1 | RAM: 2
+Container: redis_cache | Status: running | CPU: 1 | RAM: 4
+
+Node: 3
+Ressources: CPU: 8 | RAM: 32
+Pod: 1
+Container: mysql_db | Status: running | CPU: 3 | RAM: 10
+Container: redis_cache | Status: stopped | CPU: 0 | RAM: 0
+Pod: 2
+Container: auth_service | Status: running | CPU: 2 | RAM: 6
+Pod: 3
+Container: worker_node | Status: stopped | CPU: 0 | RAM: 0
+Pod: 4
+Container: logger | Status: running | CPU: 1 | RAM: 1
+
+Node: 4
+Ressources: CPU: 8 | RAM: 64
+Pod: 1
+Container: nginx_webserver | Status: running | CPU: 2 | RAM: 8
+Pod: 2
+Container: backend_service | Status: running | CPU: 2 | RAM: 6
+Pod: 3
+Container: job_scheduler | Status: stopped | CPU: 3 | RAM: 6
+Pod: 4
+Container: alerting_service | Status: running | CPU: 1 | RAM: 1
+
+Node: 5
+Ressources: CPU: 8 | RAM: 64
+Pod: 1
+Container: elasticsearch | Status: running | CPU: 1 | RAM: 20
+Container: logstash | Status: running | CPU: 3 | RAM: 10
+Pod: 2
+Container: monitoring_agent | Status: running | CPU: 2 | RAM: 4
+Pod: 3
+Container: data_processor | Status: stopped | CPU: 0 | RAM: 0
+
+Node: 6
+Ressources: CPU: 16 | RAM: 64
+Pod: 1
+Container: postgres_db | Status: running | CPU: 2 | RAM: 8
+Container: grafana_monitoring | Status: running | CPU: 2 | RAM: 4
+Pod: 2
+Container: alert_manager | Status: running | CPU: 1 | RAM: 1
+Pod: 3
+Container: prometheus | Status: running | CPU: 3 | RAM: 6
